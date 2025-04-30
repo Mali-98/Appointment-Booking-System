@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: appointment_system-db
+    restart: always
+    environment:
+      POSTGRES_USER: appointment_system_user
+      POSTGRES_PASSWORD: appointment_system_pass
+      POSTGRES_DB: appointment_system_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - appointment_system_data:/var/lib/postgresql/data
+
+volumes:
+  appointment_system_data:
