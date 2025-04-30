@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -15,7 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     database: 'appointment_system_db',
     entities: [User],
     synchronize: true,
-  }), UserModule],
+  }), UserModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
