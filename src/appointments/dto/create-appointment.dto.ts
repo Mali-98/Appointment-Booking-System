@@ -1,14 +1,11 @@
-// src/appointments/dto/create-slot.dto.ts
-import { IsNotEmpty, IsDateString, IsString, IsInt, Min } from 'class-validator';
+import { IsNotEmpty, IsDateString, IsInt, Min } from 'class-validator';
 
 export class CreateAppointmentDto {
+    @IsNotEmpty()
     @IsDateString()
-    date: string;
-
-    @IsString()
-    time: string;
+    dateTime: string; // ISO 8601 datetime string or timestamp
 
     @IsInt()
     @Min(1)
-    duration: number;
+    duration: number; // minutes
 }

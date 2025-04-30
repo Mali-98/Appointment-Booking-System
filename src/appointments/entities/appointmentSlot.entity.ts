@@ -1,4 +1,3 @@
-// src/appointments/entities/slot.entity.ts
 import {
     Entity,
     PrimaryGeneratedColumn,
@@ -18,11 +17,9 @@ export class Slot {
     @ManyToOne(() => User, user => user.id)
     provider: User;
 
-    @Column()
-    date: string; // ISO Date string: YYYY-MM-DD
-
-    @Column()
-    time: string; // HH:mm
+    // Change to a single timestamp field
+    @Column('timestamp')
+    dateTime: Date; // Store both date and time as a timestamp
 
     @Column()
     duration: number; // minutes

@@ -20,9 +20,30 @@ export class AppointmentsService {
     const provider = await this.userRepo.findOne({ where: { id: providerId } });
     if (!provider) throw new NotFoundException('Provider not found');
 
-    const slot = this.slotRepo.create({ ...dto, provider });
+    // Convert dateTime from string to Date
+    const dateTime = new Date(dto.dateTime);
+
+    if (isNaN(dateTime.getTime())) {
+      throw new Error('Invalid dateTime format');
+    }
+
+    // Check if there's already a slot at the same time for the same provider
+    const existingSlot = await this.slotRepo.findOne({
+      where: {
+        provider: { id: providerId },
+        dateTime: dateTime, // Compare Date objects directly
+      },
+    });
+
+    if (existingSlot) {
+      throw new Error('Provider already has a slot at this time');
+    }
+
+    const slot = this.slotRepo.create({ ...dto, provider, dateTime }); // Use dateTime here
     return this.slotRepo.save(slot);
   }
+
+
 
 
   async getProviderSlots(providerId: string) {
