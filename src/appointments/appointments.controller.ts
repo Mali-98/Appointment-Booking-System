@@ -10,23 +10,4 @@ import { UserRole } from 'src/user/entities/user.entity';
 @UseGuards(RolesGuard)
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) { }
-
-  @Post('slots')
-  @Roles(UserRole.PROVIDER)
-  createSlot(@Body() dto: CreateAppointmentDto, @Req() req) {
-    return this.appointmentsService.createSlot(dto, req.user.sub);
-  }
-
-
-  @Get('slots/provider')
-  @Roles(UserRole.PROVIDER)
-  getMySlots(@Req() req) {
-    return this.appointmentsService.getProviderSlots(req.user.sub);
-  }
-
-  @Get('slots/available')
-  @Roles(UserRole.USER)
-  getAvailableSlots() {
-    return this.appointmentsService.getAvailableSlots();
-  }
 }

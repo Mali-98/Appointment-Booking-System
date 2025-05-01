@@ -7,10 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { JwtService } from '@nestjs/jwt';
+import { ProviderSlotsController } from './provider-slots.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Slot, Booking, User])],
-  controllers: [AppointmentsController],
+  controllers: [AppointmentsController, ProviderSlotsController],
   providers: [AppointmentsService, RolesGuard, JwtService,],
 })
 export class AppointmentsModule { }
