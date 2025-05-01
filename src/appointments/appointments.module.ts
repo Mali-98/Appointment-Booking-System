@@ -8,10 +8,11 @@ import { User } from 'src/user/entities/user.entity';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { JwtService } from '@nestjs/jwt';
 import { ProviderSlotsController } from './provider-slots.controller';
+import { UserBookingController } from './user-booking.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Slot, Booking, User])],
-  controllers: [AppointmentsController, ProviderSlotsController],
+  controllers: [AppointmentsController, ProviderSlotsController, UserBookingController],
   providers: [AppointmentsService, RolesGuard, JwtService,],
 })
 export class AppointmentsModule { }
