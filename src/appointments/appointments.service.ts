@@ -56,4 +56,49 @@ export class AppointmentsService {
       relations: ['provider'],
     });
   }
+
+  async updateSlot(slotId: string, dto: CreateAppointmentDto, providerId: string) {
+    const slot = await this.slotRepo.findOne({
+      where: { id: slotId },
+      relations: ['provider'],
+    });
+
+    if (!slot) {
+      throw new NotFoundException('Slot not found');
+    }
+
+    const newDate = new Date(dto.dateTime);
+    if (isNaN(newDate.getTime())) {
+      throw new ForbiddenException('Invalid dateTime format');
+    }
+
+    const existingSlot = await this.slotRepo.findOne({
+      where: {
+        provider: { id: providerId },
+        dateTime: newDate,
+      },
+    });
+
+    if (existingSlot && existingSlot.id !== slotId) {
+      throw new ForbiddenException('Another slot already exists at this time');
+    }
+
+    slot.dateTime = newDate;
+    slot.duration = dto.duration;
+    return this.slotRepo.save(slot);
+  }
+
+  async deleteSlot(slotId: string, providerId: string) {
+    const slot = await this.slotRepo.findOne({
+      where: { id: slotId },
+      relations: ['provider'],
+    });
+
+    if (!slot) {
+      throw new NotFoundException('Slot not found');
+    }
+
+    await this.slotRepo.remove(slot);
+    return { message: 'Slot deleted successfully' };
+  }
 }
