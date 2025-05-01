@@ -32,7 +32,7 @@ export class RolesGuard implements CanActivate {
 
         const token = authHeader.split(' ')[1];
         try {
-            const payload = this.jwtService.verify(token, { secret: 'hamada1234' }); // (environment variable recommended)
+            const payload = this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
             request.user = payload;
 
             if (!requiredRoles.includes(payload.role)) {

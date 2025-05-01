@@ -1,5 +1,5 @@
 // src/appointments/appointments.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Slot } from './entities/appointmentSlot.entity';
 import { Repository } from 'typeorm';
@@ -24,7 +24,7 @@ export class AppointmentsService {
     const dateTime = new Date(dto.dateTime);
 
     if (isNaN(dateTime.getTime())) {
-      throw new Error('Invalid dateTime format');
+      throw new ForbiddenException('Invalid dateTime format');
     }
 
     // Check if there's already a slot at the same time for the same provider
@@ -36,7 +36,7 @@ export class AppointmentsService {
     });
 
     if (existingSlot) {
-      throw new Error('Provider already has a slot at this time');
+      throw new ForbiddenException('Provider already has a slot at this time');
     }
 
     const slot = this.slotRepo.create({ ...dto, provider, dateTime }); // Use dateTime here
