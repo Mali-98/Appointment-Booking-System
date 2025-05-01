@@ -9,10 +9,11 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { JwtService } from '@nestjs/jwt';
 import { ProviderSlotsController } from './provider-slots.controller';
 import { UserBookingController } from './user-booking.controller';
+import { ReminderService } from './reminder.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Slot, Booking, User])],
   controllers: [AppointmentsController, ProviderSlotsController, UserBookingController],
-  providers: [AppointmentsService, RolesGuard, JwtService,],
+  providers: [AppointmentsService, RolesGuard, JwtService, ReminderService],
 })
 export class AppointmentsModule { }

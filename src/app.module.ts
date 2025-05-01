@@ -9,9 +9,11 @@ import { AppointmentsModule } from './appointments/appointments.module';
 import { Slot } from './appointments/entities/appointmentSlot.entity';
 import { Booking } from './appointments/entities/booking.entity';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }), // <-- This is required
     TypeOrmModule.forRoot({
       type: 'postgres',
